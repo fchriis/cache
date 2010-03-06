@@ -18,6 +18,9 @@
 		 * @param	callback	$buildCallback
 		 */
 		public function __construct ($sourceDirectory, $cacheDirectory, $buildCallback) {
+			if (!is_callable($buildCallback))
+				throw new Exception ('Invalid Callback');
+			
 			$this->sourceDirectory = $sourceDirectory;
 			$this->cacheDirectory = $cacheDirectory;
 			$this->buildCallback = $buildCallback;
