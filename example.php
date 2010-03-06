@@ -1,11 +1,10 @@
 <?php
 	require_once('Cache.class.php');
 	
-	function build ($sourcefile) {
-		$source = file_get_contents($sourcefile);
+	function build ($sourceFilename, $cacheFilename) {
+		$source = file_get_contents($sourceFilename);
 		$source = str_replace('#{time}', date("d.m.Y, H:i:s"), $source);
-		
-		return $source;
+		file_put_contents($cacheFilename, $source);
 	}
 	
 	$testCache = new Cache (

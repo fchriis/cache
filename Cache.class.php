@@ -36,7 +36,10 @@
 			
 			// check if cache needs to be rebuild
 			if ($this->needRebuild($filename))
-				$this->build($filename);
+				call_user_func_array($this->buildCallback, array(
+					$this->getSourceFilename($filename),
+					$this->getCacheFilename($filename)
+				));
 			
 			
 			return $this->getCacheFilename($filename);
@@ -58,17 +61,6 @@
 			$cacheTime = @filemtime($this->getCacheFilename($filename));
 			if ($sourceTime >= $cacheTime)
 				return true;
-		}
-		
-		/**
-		 * Builds cached version
-		 * 
-		 * @param	string		$filename
-		 * @return	string		filename of cached version
-		 */
-		protected function build ($filename) {
-			$cache = call_user_func($this->buildCallback, $this->getSourceFilename($filename));
-			file_put_contents($this->getCacheFilename($filename), $cache);
 		}
 		
 		/**
